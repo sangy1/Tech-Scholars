@@ -1,18 +1,20 @@
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <string.h>
+#include <list>
+#include <map>
 using namespace std;
-
+typedef map<string, int> MapType;
 
 int main() {
-  char filename[301];
-  cout << "Enter a file name and press enter: ";
-  cin.getline(filename, 301);
+  char filename[1000], words[1000];
+  cout << "Enter a file name and press ENTER: "; // Part to get input for file name
+  cin.getline(filename, 1000);
 
-  ifstream file_in;
-  file_in.open(filename);
+  ifstream myFile;
+  myFile.open(filename); // opens file
 
-  if (! file_in) {
+  if (! myFile) { // case for when file doesn't exist
     cout << filename << " could not be opened.";
     cout << endl;
     return -1;
@@ -20,10 +22,23 @@ int main() {
 
   string str;
   int i=1;
-  while (getline(file_in, str) &&i <= 3 ) {
+  cout << "The text from the " << filename << ": ";
+  while (getline(myFile, str) && i <= 3 ) { // Checks line
     cout << str << "\n";
+    strcpy(words, str.c_str());
     i++;
   }
-
-  return 0;
+cout << "\n";
+  MapType m;
+  int len = strlen(words);
+  char delim[] = " ";
+  char *ptr = strtok(words, delim);
+  while (ptr != NULL) {
+    ++m[ptr];
+    ptr = strtok(NULL, delim);
+  }
+  for (MapType::iterator iter = m.begin(); iter != m.end(); ++iter) { // Displays number of instances a word has
+    cout << iter->first << ": occurred " << iter->second << " times.\n";
+  }
+return 0;
 }
