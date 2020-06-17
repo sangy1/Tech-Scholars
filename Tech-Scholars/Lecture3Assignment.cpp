@@ -20,19 +20,24 @@ int main() {
     return -1;
   }
 
-  string str;
+  string str, fullPhrase;
   int i=1;
-  cout << "The text from the " << filename << ": ";
+  cout << "The text from the " << filename << ": \n";
   while (getline(myFile, str) && i <= 3 ) { // Checks line
     cout << str << "\n";
     strcpy(words, str.c_str());
+    fullPhrase += str;
     i++;
   }
-cout << "\n";
+
+  cout << "\n";
+
+  strcpy(words, fullPhrase.c_str());
   MapType m;
   int len = strlen(words);
-  char delim[] = " ";
+  char delim[] = " \n";
   char *ptr = strtok(words, delim);
+
   while (ptr != NULL) {
     ++m[ptr];
     ptr = strtok(NULL, delim);
