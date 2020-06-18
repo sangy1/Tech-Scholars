@@ -12,31 +12,38 @@ typedef pair<string, int> mypair;
 
 
 
+
 int main() {
-  // Step 1
+  // Step 1: Read File name
   int maxChar = 301;
   char filename[maxChar], words[1000000];
   cout << "Enter a file name and press ENTER: "; // Part to get input for file name
   cin.getline(filename, maxChar);
 
-  // Step 2
+  // Step 2: Create ifstream object
   ifstream myFile;
   myFile.open(filename); // opens file
 
-  // Step 3
+  // Step 3:  Check if file is open
   if (! myFile) { // case for when file doesn't exist
     cout << filename << " could not be opened.";
     cout << endl;
     return -1;
   }
 
-  // Step 4
+  // Step 4: Count frequencies by using map
   string str, fullPhrase;
-  while (getline(myFile, str)) { // Checks line
+  while (getline(myFile, str)) { //adds all the words onto one string
     strcpy(words, str.c_str());
     fullPhrase += str;
   }
 
+  for (int i = 0; i < fullPhrase.length(); i++) {
+    if (ispunct(fullPhrase[i])) {
+      fullPhrase.erase(i--, 1);
+    }
+  }
+  
   cout << "\n";
 
   strcpy(words, fullPhrase.c_str());
@@ -49,12 +56,14 @@ int main() {
     ++m[ptr];
     ptr = strtok(NULL, delim);
   }
+
   for (MapCount::iterator iter = m.begin(); iter != m.end(); ++iter) { // Displays number of instances a word has
     cout << iter->first << ": occurred " << iter->second << " times.\n";
   }
 
 
   // Step 5a: copy map to vector
+  cout << "These are the vectors ordered" << endl;
   vector<mypair> vec;
   copy(m.begin(), m.end(), back_inserter(vec));
 
