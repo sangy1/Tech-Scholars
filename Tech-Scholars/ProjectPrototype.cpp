@@ -54,9 +54,23 @@ int main() {
   }
 
 
-  // Step 5
-  myvector<mypair> vec;
+  // Step 5a: copy map to vector
+  vector<mypair> vec;
   copy(m.begin(), m.end(), back_inserter(vec));
+
+  // Step 5b: sort
+  sort(vec.begin(), vec.end(),
+			[](const mypair& l, const mypair& r) {
+				if (l.second != r.second)
+					return l.second < r.second;
+
+				return l.first < r.first;
+			});
+
+  // Step 5c: Print vector
+  for (auto const &mypair: vec) {
+		cout << '{' << mypair.first << "," << mypair.second << '}' << '\n';
+	}
 
 return 0;
 }
