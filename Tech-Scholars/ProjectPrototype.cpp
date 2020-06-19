@@ -10,14 +10,13 @@ using namespace std;
 typedef map<string, int> MapCount;
 typedef pair<string, int> mypair;
 
-string newFileName = "jobsOrdered.csv";
+
 
 
 int main() {
   // Step 1: Read File name
   int maxChar = 301;
   char filename[maxChar], words[1000000];
-
   cout << "Enter a file name and press ENTER: "; // Part to get input for file name
   cin.getline(filename, maxChar);
 
@@ -38,9 +37,10 @@ int main() {
     strcpy(words, str.c_str());
     fullPhrase += str;
   }
+  myFile.close();
 
   for (int i = 0; i < fullPhrase.length(); i++) {
-    if (ispunct(fullPhrase[i])) {
+    if(ispunct(fullPhrase[i])) {
       fullPhrase.erase(i--, 1);
     }
   }
@@ -48,9 +48,10 @@ int main() {
   cout << "\n";
 
   strcpy(words, fullPhrase.c_str());
+  cout << fullPhrase;
   MapCount m;
   int len = strlen(words);
-  char delim[] = " •\n1234567890";
+  char delim[] = " \n•";
   char *ptr = strtok(words, delim);
 
   while (ptr != NULL) {
@@ -58,9 +59,6 @@ int main() {
     ptr = strtok(NULL, delim);
   }
 
-  /*for (MapCount::iterator iter = m.begin(); iter != m.end(); ++iter) { // Displays number of instances a word has
-    cout << iter->first << ": occurred " << iter->second << " times.\n";
-  }*/
 
   // Step 5a: copy map to vector
   cout << "These are the vectors ordered" << endl;
@@ -71,25 +69,43 @@ int main() {
   sort(vec.begin(), vec.end(),
 			[](const mypair& l, const mypair& r) {
 				if (l.second != r.second)
-					return l.second > r.second;
+					return l.second < r.second;
 
-				return l.first > r.first;
+				return l.first < r.first;
 			});
 
-  // Step 5c: Print vector
-  for (auto const &mypair: vec) {
-		cout << '{' << mypair.first << "," << mypair.second << '}' << '\n';
-	}
 
-  // Step 6: save results to csv
-  fstream newFile(newFileName, ios::out);
-  newFile << "Words" << "," << "Repetitions" << endl;
+  char outFilename[301];
+  cout << "Enter a output file name and press ENTER: "; // Part to get input for file name
+  cin.getline(outFilename, 301);
+  outFilename[301] = "output1.csv";
+  ofstream outFile;
+  outFile.open(outFilename);
 
-  for (auto const &mypair: vec) {
-    newFile << mypair.first << ", " << mypair.second << "\n";
+if(!outFile){
+cout  << endl << "File could not be opened.";
+cout << endl;
+return -1;
   }
 
-  vec.clear();
 
+  // Step 5c:Load vector to a csv
+  outFile << "Most frequented keywords (ascending): , Repetition"<<endl;
+  for (auto const &mypair: vec) {
+      int i=0;
+      bool cx= true;
+      string str = mypair.first;
+      while (i < str.length())
+      {
+        if (ispunct(str.at(i))) cx = false;
+        i++;
+      }
+        if(cx)
+            outFile << mypair.first << "," << mypair.second << '\n';
+	}
+cout << endl<<"Filesize: " << vec.size() <<endl;
+outFile.close();
+
+//5115
 return 0;
 }
