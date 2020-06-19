@@ -17,8 +17,8 @@ int main() {
   // Step 1: Read File name
   int maxChar = 301;
   char filename[maxChar], words[1000000];
-  cout << "Enter a file name and press ENTER: "; // Part to get input for file name
-  cin.getline(filename, maxChar);
+  //cout << "Enter a file name and press ENTER: "; // Part to get input for file name
+  filename[maxChar] = "/Users/egekacmaz/Downloads/jobs.csv";
 
   // Step 2: Create ifstream object
   ifstream myFile;
@@ -76,8 +76,7 @@ int main() {
 
 
   char outFilename[301];
-  cout << "Enter a output file name and press ENTER: "; // Part to get input for file name
-  cin.getline(outFilename, 301);
+  //cout << "Enter a output file name and press ENTER: "; // Part to get input for file name
   outFilename[301] = "output1.csv";
   ofstream outFile;
   outFile.open(outFilename);
