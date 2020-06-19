@@ -53,6 +53,15 @@ int main () {
              std::cout << "Word: " << pair.first << "\tCount: " << pair.second << '\n';
          }
 
+         std::fstream myFile(newFileName, std::ios::out);
+         myFile << "Words" << "," << "Repetitions" << '\n';
+
+         for (auto const &pair: vec) {
+           myFile << pair.first << ", " << pair.second << "\n";
+         }
+
+         vec.clear();
+          
           myfile.close();
      }
      else std::cout << "Unable to open file";
