@@ -20,6 +20,7 @@ typedef std::pair<std::string,int> pair;
 int main () {
      std::string line;
      std::ifstream myfile ("/Users/egekacmaz/Downloads/jobs.csv");
+     std::string newFileName("/Users/egekacmaz/Downloads/WordsOrdered.csv");
      if (myfile.is_open())
      {
           std::map<std::string, int> myMap;
